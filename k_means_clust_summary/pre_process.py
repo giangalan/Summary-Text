@@ -3,6 +3,7 @@ import underthesea
 import pickle
 from gensim.models import KeyedVectors
 
+
 def get_contents(path):
     filepath = open(path, 'rb')
     contents = pickle.load(filepath)
@@ -12,9 +13,9 @@ def get_contents(path):
     return contents_parsed
 
 
-def tokenize(path):
+def tokenize_1_content(path, index):
     sents_list = []
-    contents = get_contents(path)[0]
+    contents = get_contents(path)[index]
     for sentence in underthesea.sent_tokenize(contents):
         wordlist = []
         for word in underthesea.word_tokenize(sentence):
@@ -22,6 +23,26 @@ def tokenize(path):
         sents_list.append(wordlist)
     return sents_list
 
-def change2vec(path):
 
-file = '/home/code/NLP/summary_text/Vietnamese_doc_summarization_basic/neg.pkl'
+# def change2vec(path):
+
+file = '/home/code/NLP/Summary-Text/Vietnamese_doc_summarization_basic/neg.pkl'
+
+
+def write_data_2_txt(path, number):
+    for i in range(0, number):
+        data = tokenize_1_content(file, i)
+        f = open('/home/code/NLP/Summary-Text/data.txt', "a+")
+        for sent in data:
+            for word in sent:
+                # print(word)
+                # print()
+                f.writelines(word)
+                f.writelines("\n")
+            f.writelines("\n")
+            # print()
+        f.writelines("end\n")
+        print("data[", i, "] finished")
+
+
+write_data_2_txt(file, 3)
